@@ -1,8 +1,7 @@
 # CAP
 Cosmo-Ages Plotter (CAP). Just plot age groups in BGF order.
 
-Angel Rodes
-SUERC 2020
+Angel Rodes, 2020
 
 
 ## Averages
