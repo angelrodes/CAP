@@ -10,7 +10,7 @@
 %% clear previous data and plots
 clear
 close all hidden
-clc
+% clc
 
 %% Version
 script_version='0.4.1';
