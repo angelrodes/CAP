@@ -5,6 +5,8 @@ function [mu,sigma] = BFG(x,y)
 % Angel Rodes, 2020
 % www.angelrodes.com
 
+% About the function name: The acronym for "Best Gaussian Fit" should be "BGF". However, when I created the function file, I made an unconscious mistake, probably influenced by my Best Friends in Glasgow, or the Big Friendly Giant that leads the SUERC-cosmo group. For that reason (and also because I referenced this function in many other scripts), I decided to leave the "mistake" as it is :)
+
 % conver to array
 x=x(:); y=y(:);
 
@@ -32,7 +34,7 @@ MUs=[min(x),max(x)];
 SDs=[min(diff(x)),max(x)-min(x)];
 
 % define tolerance
-tol=0.005;
+tol=0.001;
 
 % run models
 h = waitbar(0,'BGF');
@@ -48,7 +50,7 @@ while convergence==0
     ri(n)=rsquare(mi(n),si(n));
     if mod(n,100)==0 && n>1000
         sortedri=sort(ri(1:n),'descend');
-        limitvalue=sortedri(100); % converge to best 100 models
+        limitvalue=sortedri(round(n/10)); % converge to best 10% models
         selec=(ri>=limitvalue);
         MUs=[min(mi(selec)),max(mi(selec))];
         SDs=[min(si(selec)),max(si(selec))];
@@ -61,10 +63,13 @@ while convergence==0
     end
 end
 close(h)
-selec=find(ri==max(ri));
-selec=selec(end);
-mu=mi(selec);
-sigma=si(selec);
-
+% selec=find(ri==max(ri));
+% selec=selec(end);
+% mu=mi(selec);
+% sigma=si(selec);
+limitvalue=sortedri(100); % best 100 models (avoid random artifacts due to x sampling limitations)
+selec=(ri>=limitvalue);
+mu=mean(mi(selec));
+sigma=mean(si(selec));
 end
 
